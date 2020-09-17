@@ -3,7 +3,7 @@ from flask import Flask
 from flask import Blueprint
 
 from config import Config
-from deep_networks.blueprint import deep_net
+from deep_net.blueprint import deep_net
 
 app = Flask(__name__)
 app.config.from_object(Config)
