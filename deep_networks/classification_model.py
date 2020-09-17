@@ -6,7 +6,7 @@ def load_and_prepare_mnist():
         from keras.datasets import mnist
 
         (x_train, y_train), (x_test, y_test) = mnist.load_data()
-        x_train = x_train.reshape(x_train.shape[0], x_train.shape[1]**2) /255
+        x_train = x_train.reshape(x_train.shape[0], x_train.shape[1]**2) /255.0
         
         ones = np.zeros((len(y_train), 10))
 
@@ -14,7 +14,7 @@ def load_and_prepare_mnist():
             ones[i][l] = 1
         y_train = ones
 
-        x_test = x_test.reshape(x_test.shape[0], x_test.shape[1]**2) / 255
+        x_test = x_test.reshape(x_test.shape[0], x_test.shape[1]**2) / 255.0
 
         ones = np.zeros((len(y_test), 10))
 
@@ -30,7 +30,7 @@ class SimpleClassificationModel:
     """
     Create a simple classification model with one hidden layer
     """
-    def __init__(self, hidden_layer=40, iterations=400, learning_rate=0.005, dropout=False):
+    def __init__(self, hidden_layer=50, iterations=400, learning_rate=0.005, dropout=False):
         self.hidden_layer = hidden_layer
         self.iterations = iterations
         self.learning_rate = learning_rate
@@ -103,6 +103,9 @@ class SimpleClassificationModel:
         assert x.shape[1] == self.input_layer
         res = np.dot(SimpleClassificationModel._relu(np.dot(x, self._parameters['W1'])), self._parameters['W2'])
         print(f"class: {np.argmax(res)},\nAll answer: {res}")
+
+    def image_digit_predict(self, image_file):
+        
 
     def serialize(self, filename : str):
         dirname = 'models/'

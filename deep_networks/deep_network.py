@@ -2,6 +2,7 @@ import numpy as np
 import pickle
 import h5py
 
+
 class InputDimenitionsError(Exception):
     pass
 
@@ -141,7 +142,19 @@ class DeepNetworkModel:
                 p[0,i] = 0
         print("Accuracy: "  + str(np.sum((p == y)/m)))
         return p
+
     
+    def predict_image(self, filename):
+        try:
+            from PIL import Image
+            image = Image.open(filename).resize((64,64))
+            image = np.array(image).reshape((64*64*3,1))
+            image = image /255.
+            print(self._L_model_forward(image))
+        except ImportError:
+            print('Please, install PIL')
+
+
     def fit(self, x, y, show_cost=False):
 
         if (x.shape[0] != self.layers[0]):
@@ -188,4 +201,5 @@ class DeepNetworkModel:
         with open(dirname+filename, 'rb') as file:
             return pickle.load(file)
     
+
 
