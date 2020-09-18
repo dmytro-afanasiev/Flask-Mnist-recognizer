@@ -7,7 +7,7 @@ from deep_net.blueprint import deep_net
 
 app = Flask(__name__)
 app.config.from_object(Config)
-app.register_blueprint(deep_net, url_prefix='/deep_net')
+app.register_blueprint(deep_net, url_prefix='/deep-net')
 
 from views import *
 

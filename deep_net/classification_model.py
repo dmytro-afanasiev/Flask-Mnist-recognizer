@@ -103,9 +103,8 @@ class SimpleClassificationModel:
         assert x.shape[1] == self.input_layer
         res = np.dot(SimpleClassificationModel._relu(np.dot(x, self._parameters['W1'])), self._parameters['W2'])
         print(f"class: {np.argmax(res)},\nAll answer: {res}")
+        return np.argmax(res)
 
-    def image_digit_predict(self, image_file):
-        
 
     def serialize(self, filename : str):
         dirname = 'models/'
@@ -116,10 +115,16 @@ class SimpleClassificationModel:
 
     @staticmethod
     def get_model_from_file(filename: str):
-        dirname = 'models/'
         if not filename.endswith('.data'):
             filename =  filename + '.data'
-        with open(dirname+filename, 'rb') as file:
+        with open(filename, 'rb') as file:
             return pickle.load(file)
 
+    def get_prepare_simple(self, l: list):
+        try:
+            res = np.array(l).reshape(1, self.input_layer)
+            return res
+        except Exception:
+            print("your data is not valid");
     
+

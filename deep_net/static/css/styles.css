@@ -12,11 +12,3 @@ body{
     margin: 10px 0px 0px 10px;
     border-radius: 10px;
 }
-
-.ball {
-    width: 50px;
-    height: 60px;
-    border-radius: 50%;
-    background-color: chocolate;
-}
-
