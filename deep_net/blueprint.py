@@ -4,13 +4,15 @@ from flask import request
 from flask import make_response
 from flask import abort
 
+
+
 deep_net = Blueprint('deep_net', __name__, template_folder='templates', static_folder='static')
 
 
 def make_predict(data : dict) -> int:
-    print(data)
-
-
+    from .classification_model import SimpleClassificationModel
+    model = SimpleClassificationModel.load_model_from_json('deep_net/static/neural_models/mnist.json')
+    model.predict_proba(model.get_prepare_simple(data['data']))
 
 @deep_net.route('/')
 def simple_paint():

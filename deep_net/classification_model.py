@@ -1,5 +1,5 @@
 import numpy as np
-import pickle
+import json
 
 def load_and_prepare_mnist():
     try:
@@ -106,19 +106,35 @@ class SimpleClassificationModel:
         return np.argmax(res)
 
 
-    def serialize(self, filename : str):
-        dirname = 'models/'
-        if not filename.endswith('.data'):
-            filename = filename + '.data'
-        with open(dirname+filename, 'wb') as file:
-            pickle.dump(self, file)
+    def serialize_to_json(self, path : str):
+        par = {
+            'W1': self._parameters['W1'].tolist(),
+            'W2': self._parameters['W2'].tolist()
+        }
+        data = {
+            'hidden_layer': self.hidden_layer,
+            'iterations': self.iterations,
+            'learning_rate': self.learning_rate,
+            'dropout': self.dropout,
+            '_parameters': par
+        }
+        with open('models/mnist.json', 'w') as f:
+            json.dump(data, f)
 
-    @staticmethod
-    def get_model_from_file(filename: str):
-        if not filename.endswith('.data'):
-            filename =  filename + '.data'
-        with open(filename, 'rb') as file:
-            return pickle.load(file)
+    @classmethod
+    def load_model_from_json(cls, path: str):
+        with open(path, 'r') as f:
+            data = json.load(f);
+        model = cls()
+        for key in data.keys():
+            setattr(model, key, data[key])
+        model._parameters = {
+            'W1': np.array(data['_parameters']["W1"]),
+            'W2': np.array(data['_parameters']['W2'])
+        }
+        model.input_layer = model._parameters['W1'].shape[0]
+        model.output_layer = model._parameters['W2'].shape[1]
+        return model
 
     def get_prepare_simple(self, l: list):
         try:
