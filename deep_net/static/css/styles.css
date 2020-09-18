@@ -12,3 +12,13 @@ body{
     margin: 10px 0px 0px 10px;
     border-radius: 10px;
 }
+
+#res{
+    margin-top: 20px;
+    text-align: center;
+    border: 1px solid black;
+    width: 80px;
+    height: 40px;
+    animation: anim 3s;
+    animation-iteration-count: infinite;
+}

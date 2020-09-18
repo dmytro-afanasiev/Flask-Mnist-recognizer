@@ -98,7 +98,6 @@ class SimpleClassificationModel:
 
         print('Accuracy:', correct/len(test_x)*100, "%")
         
-    #FIXME
     def predict_proba(self, x):
         assert x.shape[1] == self.input_layer
         res = np.dot(SimpleClassificationModel._relu(np.dot(x, self._parameters['W1'])), self._parameters['W2'])
@@ -118,7 +117,7 @@ class SimpleClassificationModel:
             'dropout': self.dropout,
             '_parameters': par
         }
-        with open('models/mnist.json', 'w') as f:
+        with open(path, 'w') as f:
             json.dump(data, f)
 
     @classmethod

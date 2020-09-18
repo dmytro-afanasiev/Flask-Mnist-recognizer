@@ -9,10 +9,10 @@ from flask import abort
 deep_net = Blueprint('deep_net', __name__, template_folder='templates', static_folder='static')
 
 
-def make_predict(data : dict) -> int:
+def make_prediction(data : dict) -> int:
     from .classification_model import SimpleClassificationModel
-    model = SimpleClassificationModel.load_model_from_json('deep_net/static/neural_models/mnist.json')
-    model.predict_proba(model.get_prepare_simple(data['data']))
+    model = SimpleClassificationModel.load_model_from_json('deep_net/static/neural_models/mnist_82%.json')
+    return model.predict_proba(model.get_prepare_simple(data['data']))
 
 @deep_net.route('/')
 def simple_paint():
@@ -22,8 +22,8 @@ def simple_paint():
 @deep_net.route('/send', methods=['POST', 'GET'])
 def send():
     if request.method == 'POST':
-        make_predict(request.json)
-        res = make_response('correct')
+        pred = make_prediction(request.json)
+        res = make_response(str(pred))
         return res
     if request.method == 'GET':
         abort(404)

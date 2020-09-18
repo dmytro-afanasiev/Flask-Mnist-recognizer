@@ -83,6 +83,15 @@ document.getElementById("but").addEventListener('click', function (e) {
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
 
     xhr.send(json);
+
+    xhr.onload = function(){
+        if (xhr.status != 200){
+            alert('error '+ xhr.statusText);
+        } else {
+            alert(xhr.response);
+            document.getElementById('res').textContent = "Last number: "+ xhr.response
+        }
+    }
 })
 
 drawGrid(0, 0, canvas.width, canvas.height);
