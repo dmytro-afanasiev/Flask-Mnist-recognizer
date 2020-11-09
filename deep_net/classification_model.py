@@ -137,7 +137,7 @@ class SimpleClassificationModel:
 
     def get_prepare_simple(self, l: list):
         try:
-            res = np.array(l).reshape(1, self.input_layer)
+            res = np.array(l).reshape(1, self.input_layer) / 255
             return res
         except Exception:
             print("your data is not valid");
